@@ -1,0 +1,9 @@
+fastapi
+uvicorn[standard]
+Jinja2
+python-dotenv
+python-multipart
+google-genai
+transformers
+torch
+sentencepiece
