@@ -3,81 +3,86 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#6d5dfc">
-  <title>EduGenie | Your AI Learning Studio</title>
+  <meta name="theme-color" content="#6557ff">
+  <meta name="description" content="EduGenie is a Gemini-powered learning studio for explanations, Q&A, quizzes, summaries, and learning paths.">
+  <title>EduGenie | Gemini Learning Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', path='style.css') }}">
 </head>
 <body>
-  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
-  <header class="topbar container">
-    <a class="brand" href="#top" aria-label="EduGenie home"><span class="brand-mark">✦</span><span>Edu<span>Genie</span></span></a>
-    <nav class="main-nav" aria-label="Main navigation"><a href="#workspace">Workspace</a><a href="#tools">AI Tools</a><a href="#how-it-works">How it works</a></nav>
-    <button class="icon-button" id="theme-toggle" type="button" aria-label="Toggle color theme">◐</button>
+  <div class="ambient ambient-a"></div><div class="ambient ambient-b"></div><div class="grain"></div>
+  <header class="topbar shell">
+    <a class="brand" href="#top" aria-label="EduGenie home"><span class="brand-icon">✦</span><span>Edu<span>Genie</span></span></a>
+    <nav class="nav" aria-label="Primary navigation"><a href="#studio">Studio</a><a href="#tools">AI tools</a><a href="#guide">Guide</a></nav>
+    <div class="top-actions"><span class="api-status" id="api-status"><i></i><span>Checking Gemini</span></span><button class="round-button" id="theme-toggle" type="button" aria-label="Toggle dark mode">◐</button></div>
   </header>
 
-  <main id="top" class="container">
-    <section class="hero-panel">
+  <main id="top" class="shell">
+    <section class="hero reveal">
       <div class="hero-copy">
-        <div class="status-pill"><span class="status-dot"></span> AI learning studio <span class="pill-divider"></span><span id="current-time">Ready when you are</span></div>
-        <h1>Make every<br><em>curious moment</em> count.</h1>
-        <p class="hero-subtitle">A focused learning workspace for clear explanations, thoughtful answers, active recall, and better study plans.</p>
-        <div class="hero-actions"><a class="primary-button" href="#tools">Start exploring <span>↗</span></a><button class="text-button" id="surprise-me" type="button">✦ Surprise me</button></div>
+        <div class="eyebrow"><span class="pulse-dot"></span> GEMINI-POWERED LEARNING STUDIO <span class="eyebrow-time" id="clock">Ready when you are</span></div>
+        <h1>Turn curiosity into <em>confidence.</em></h1>
+        <p>One calm, focused workspace for understanding ideas, asking better questions, practicing actively, and planning what to learn next.</p>
+        <div class="hero-actions"><a class="primary-button" href="#tools">Open the studio <span>↗</span></a><button class="ghost-button" id="surprise" type="button">✦ Surprise me</button></div>
+        <div class="hero-stats"><div><strong id="session-count">0</strong><span>activities</span></div><div><strong>5</strong><span>AI tools</span></div><div><strong>∞</strong><span>topics</span></div></div>
       </div>
-      <div class="hero-orbit" aria-hidden="true"><div class="orbit-ring ring-a"></div><div class="orbit-ring ring-b"></div><div class="orbit-core"><span>✦</span><small>LEARN<br>BRIGHTER</small></div><span class="orbit-chip chip-a">Explain</span><span class="orbit-chip chip-b">Practice</span><span class="orbit-chip chip-c">Grow</span></div>
+      <div class="hero-visual" aria-hidden="true"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="orb-core"><span>✦</span><small>LEARN<br>BRIGHTER</small></div><span class="float-chip chip-one">Explain</span><span class="float-chip chip-two">Practice</span><span class="float-chip chip-three">Grow</span></div>
     </section>
 
-    <section id="workspace" class="workspace-section">
-      <div class="section-heading"><div><p class="section-kicker">YOUR WORKSPACE</p><h2>What would you like to learn today?</h2></div><div class="focus-meter"><span class="meter-label">Focus mode</span><button class="focus-toggle" id="focus-toggle" type="button" aria-pressed="false"><span></span></button></div></div>
-      <div class="quick-prompts" aria-label="Quick prompts"><span>Try a prompt</span><button type="button" data-fill="concept" data-value="How does photosynthesis work?">Photosynthesis</button><button type="button" data-fill="question" data-value="Why do seasons change?">Seasons</button><button type="button" data-fill="topic" data-value="The water cycle">Water cycle</button><button type="button" data-fill="learning-topic" data-value="Python programming">Python</button></div>
-    </section>
+    <section id="studio" class="studio-head reveal"><div><div class="eyebrow plain">YOUR LEARNING WORKSPACE</div><h2>What would you like to explore?</h2><p>Pick a tool, write a little context, and let Gemini help you move forward.</p></div><div class="focus-control"><span>Focus mode</span><button class="toggle" id="focus-toggle" type="button" aria-pressed="false"><i></i></button></div></section>
+    <div class="quick-prompts reveal"><span>Quick starts</span><button data-fill="concept-input" data-value="How does photosynthesis work?">Photosynthesis</button><button data-fill="question-input" data-value="Why do seasons change on Earth?">Seasons</button><button data-fill="quiz-input" data-value="Python basics">Python quiz</button><button data-fill="path-input" data-value="Data science">Data science</button></div>
 
     <section id="tools" class="tool-grid">
-      <article class="tool-card card-purple" data-endpoint="/explain" data-field="concept" data-tool="explain">
-        <div class="card-top"><span class="number-badge">01</span><span class="card-tag">LOCAL MODEL</span></div><div class="tool-icon">◎</div><h3>Concept<br><span>explainer</span></h3><p>Break down difficult ideas into simple, memorable mental models.</p>
-        <form><label for="concept">What should we unpack?</label><div class="input-wrap"><input id="concept" name="concept" placeholder="e.g. quantum physics" required><span>⌕</span></div><button class="tool-button" type="submit">Explain concept <span>→</span></button></form><div class="result" aria-live="polite"></div>
+      <article class="tool-card violet reveal" data-endpoint="/explain" data-result-type="text">
+        <div class="card-head"><span class="step-number">01</span><span class="tag">UNDERSTAND</span></div><div class="tool-symbol">◎</div><h3>Concept <em>explainer</em></h3><p>Turn a difficult idea into a simple mental model with an example you can remember.</p>
+        <form><label for="concept-input">What should we unpack?</label><div class="field"><input id="concept-input" name="concept" placeholder="e.g. quantum physics" autocomplete="off"><span>⌕</span></div><button class="card-button" type="submit">Explain concept <b>→</b></button></form><div class="result" aria-live="polite"></div>
       </article>
-      <article class="tool-card card-blue" data-endpoint="/ask" data-field="question" data-tool="ask">
-        <div class="card-top"><span class="number-badge">02</span><span class="card-tag">AI TUTOR</span></div><div class="tool-icon">?</div><h3>Ask<br><span>anything</span></h3><p>Get a reasoned, student-friendly answer without the jargon overload.</p>
-        <form><label for="question">Your question</label><div class="input-wrap"><textarea id="question" name="question" rows="2" placeholder="Why do seasons change?" required></textarea><span>⌕</span></div><button class="tool-button" type="submit">Ask EduGenie <span>→</span></button></form><div class="result" aria-live="polite"></div>
+      <article class="tool-card blue reveal" data-endpoint="/ask" data-result-type="text">
+        <div class="card-head"><span class="step-number">02</span><span class="tag">ASK GEMINI</span></div><div class="tool-symbol">?</div><h3>Ask <em>anything</em></h3><p>Get a patient, student-friendly answer with just enough reasoning to make it click.</p>
+        <form><label for="question-input">Your question</label><div class="field"><textarea id="question-input" name="question" rows="2" placeholder="Why do seasons change?"></textarea><span>⌕</span></div><button class="card-button" type="submit">Ask EduGenie <b>→</b></button></form><div class="result" aria-live="polite"></div>
       </article>
-      <article class="tool-card card-orange" data-endpoint="/quiz" data-field="topic" data-tool="quiz">
-        <div class="card-top"><span class="number-badge">03</span><span class="card-tag">ACTIVE RECALL</span></div><div class="tool-icon">✎</div><h3>Build a<br><span>quiz</span></h3><p>Turn a topic into five questions that make your knowledge stick.</p>
-        <form><label for="quiz-topic">Quiz topic</label><div class="input-wrap"><input id="quiz-topic" name="topic" placeholder="e.g. cell biology" required><span>⌕</span></div><button class="tool-button" type="submit">Generate quiz <span>→</span></button></form><div class="result" aria-live="polite"></div>
+      <article class="tool-card orange reveal" data-endpoint="/quiz" data-result-type="quiz">
+        <div class="card-head"><span class="step-number">03</span><span class="tag">ACTIVE RECALL</span></div><div class="tool-symbol">✎</div><h3>Build a <em>quiz</em></h3><p>Challenge yourself with five Gemini-generated questions and instant score feedback.</p>
+        <form><label for="quiz-input">Quiz topic</label><div class="field"><input id="quiz-input" name="topic" placeholder="e.g. cell biology" autocomplete="off"><span>⌕</span></div><button class="card-button" type="submit">Generate quiz <b>→</b></button></form><div class="result" aria-live="polite"></div>
       </article>
-      <article class="tool-card card-green" data-endpoint="/summarize" data-field="text" data-tool="summary">
-        <div class="card-top"><span class="number-badge">04</span><span class="card-tag">SMART NOTES</span></div><div class="tool-icon">≡</div><h3>Summarize<br><span>your notes</span></h3><p>Find the signal in long reading and turn it into revision-ready notes.</p>
-        <form><label for="summary-text">Paste your text</label><div class="input-wrap"><textarea id="summary-text" name="text" rows="3" placeholder="Paste a passage or notes..." required></textarea><span>⌕</span></div><button class="tool-button" type="submit">Create summary <span>→</span></button></form><div class="result" aria-live="polite"></div>
+      <article class="tool-card green reveal" data-endpoint="/summarize" data-result-type="text">
+        <div class="card-head"><span class="step-number">04</span><span class="tag">SMART NOTES</span></div><div class="tool-symbol">≡</div><h3>Summarize <em>your notes</em></h3><p>Find the signal in long reading and turn it into clean, revision-ready notes.</p>
+        <form><label for="summary-input">Paste your text</label><div class="field"><textarea id="summary-input" name="text" rows="3" placeholder="Paste a passage or notes..."></textarea><span>⌕</span></div><button class="card-button" type="submit">Create summary <b>→</b></button></form><div class="result" aria-live="polite"></div>
       </article>
-      <article class="tool-card card-pink wide-card" data-endpoint="/learning-path" data-field="topic" data-tool="path">
-        <div class="card-top"><span class="number-badge">05</span><span class="card-tag">PERSONALIZED PLAN</span></div><div class="path-layout"><div><div class="tool-icon">↗</div><h3>Map your<br><span>next chapter</span></h3><p>Get a practical journey from foundations to advanced confidence.</p></div><form><label for="learning-topic">What do you want to master?</label><div class="input-wrap"><input id="learning-topic" name="topic" placeholder="e.g. SQL, Spanish, calculus" required><span>⌕</span></div><button class="tool-button" type="submit">Create learning path <span>→</span></button></form></div><div class="result" aria-live="polite"></div>
+      <article class="tool-card pink wide reveal" data-endpoint="/learning-path" data-result-type="text">
+        <div class="path-copy"><div class="card-head"><span class="step-number">05</span><span class="tag">YOUR NEXT CHAPTER</span></div><div class="tool-symbol">↗</div><h3>Map your <em>learning path</em></h3><p>Move from foundations to advanced confidence with an ordered Gemini study plan.</p></div>
+        <div class="path-form"><form><label for="path-input">What do you want to master?</label><div class="field"><input id="path-input" name="topic" placeholder="e.g. Python, calculus, Spanish" autocomplete="off"><span>⌕</span></div><button class="card-button" type="submit">Create learning path <b>→</b></button></form></div><div class="result" aria-live="polite"></div>
       </article>
     </section>
 
-    <section id="how-it-works" class="how-section"><div><p class="section-kicker">A BETTER STUDY LOOP</p><h2>Learn with momentum.</h2></div><div class="steps"><div><span>01</span><strong>Ask</strong><p>Start with the question in your head.</p></div><div><span>02</span><strong>Understand</strong><p>Make the idea clear with a useful explanation.</p></div><div><span>03</span><strong>Practice</strong><p>Test yourself and choose your next step.</p></div></div></section>
+    <section id="guide" class="guide reveal"><div><div class="eyebrow plain">A BETTER STUDY LOOP</div><h2>Learn with momentum.</h2><p>EduGenie turns one question into a repeatable loop: understand, practice, and choose your next step.</p></div><div class="steps"><div><span>01</span><strong>Ask</strong><p>Start with the question in your head.</p></div><div><span>02</span><strong>Understand</strong><p>Make the idea clear with a useful explanation.</p></div><div><span>03</span><strong>Practice</strong><p>Test yourself and see what to learn next.</p></div></div></section>
   </main>
-  <footer class="container footer"><span>EduGenie</span><span>Made for curious minds.</span><span>© 2026</span></footer>
+  <footer class="shell footer"><span>EduGenie <i>•</i> Made for curious minds.</span><span>Gemini learning studio <i>•</i> 2026</span></footer>
+  <div class="toast" id="toast" role="status"></div>
 
-  <script>
-    const root = document.documentElement;
-    const themeToggle = document.getElementById('theme-toggle');
-    if (localStorage.getItem('edugenie-theme') === 'dark') root.dataset.theme = 'dark';
-    themeToggle.addEventListener('click', () => { root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark'; localStorage.setItem('edugenie-theme', root.dataset.theme); });
-    document.getElementById('focus-toggle').addEventListener('click', (e) => { const on = e.currentTarget.getAttribute('aria-pressed') !== 'true'; e.currentTarget.setAttribute('aria-pressed', on); document.body.classList.toggle('focus-mode', on); });
-    document.querySelectorAll('[data-fill]').forEach((button) => button.addEventListener('click', () => { const input = document.getElementById(button.dataset.fill); if (input) { input.value = button.dataset.value; input.focus(); input.closest('.tool-card').scrollIntoView({ behavior: 'smooth', block: 'center' }); } }));
-    const surprises = [{ id: 'concept', value: 'How does memory work?' }, { id: 'question', value: 'Why is the ocean salty?' }, { id: 'topic', value: 'The human brain' }, { id: 'learning-topic', value: 'Data science' }];
-    document.getElementById('surprise-me').addEventListener('click', () => { const item = surprises[Math.floor(Math.random() * surprises.length)]; const input = document.getElementById(item.id); input.value = item.value; input.closest('.tool-card').scrollIntoView({ behavior: 'smooth', block: 'center' }); input.focus(); });
-    function escapeHtml(text) { return String(text).replace(/[&<>'"]/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c])); }
-    function formatResult(value) {
-      if (typeof value !== 'object') return escapeHtml(value || '').replace(/\n/g, '<br>');
-      if (Array.isArray(value.questions)) return '<ol class="quiz-list">' + value.questions.map((q) => '<li><strong>' + escapeHtml(q.question) + '</strong><ul>' + q.options.map((o) => '<li>' + escapeHtml(o) + '</li>').join('') + '</ul><p class="answer">Answer: ' + escapeHtml(q.correct_answer) + '</p></li>').join('') + '</ol>';
-      return escapeHtml(JSON.stringify(value, null, 2)).replace(/\n/g, '<br>');
-    }
-    document.querySelectorAll('.tool-card').forEach((card) => card.querySelector('form').addEventListener('submit', async (event) => {
-      event.preventDefault(); const result = card.querySelector('.result'); const button = card.querySelector('button'); const original = button.innerHTML; result.className = 'result loading'; result.innerHTML = '<span class="loader"></span> EduGenie is thinking...'; button.disabled = true; button.innerHTML = '<span class="button-spinner"></span> Working'; card.classList.add('is-loading');
-      try { const response = await fetch(card.dataset.endpoint, { method: 'POST', body: new FormData(event.target) }); const data = await response.json(); result.className = response.ok ? 'result success' : 'result error'; result.innerHTML = formatResult(data.result || data.error || 'No response received.'); } catch (error) { result.className = 'result error'; result.textContent = 'Could not reach EduGenie. Please try again.'; } finally { button.disabled = false; button.innerHTML = original; card.classList.remove('is-loading'); }
-    }));
-    function updateTime() { document.getElementById('current-time').textContent = new Intl.DateTimeFormat([], { hour: 'numeric', minute: '2-digit' }).format(new Date()); } updateTime(); setInterval(updateTime, 30000);
-    const observer = new IntersectionObserver((entries) => entries.forEach((entry) => { if (entry.isIntersecting) entry.target.classList.add('visible'); }), { threshold: .12 }); document.querySelectorAll('.tool-card,.how-section').forEach((el) => observer.observe(el));
-  </script>
+<script>
+const root=document.documentElement;
+const $=(s,p=document)=>p.querySelector(s);
+const $$=(s,p=document)=>[...p.querySelectorAll(s)];
+if(localStorage.getItem('edugenie-theme')==='dark') root.dataset.theme='dark';
+$('#theme-toggle').addEventListener('click',()=>{root.dataset.theme=root.dataset.theme==='dark'?'light':'dark';localStorage.setItem('edugenie-theme',root.dataset.theme);showToast(root.dataset.theme==='dark'?'Dark mode on':'Light mode on')});
+$('#focus-toggle').addEventListener('click',e=>{const on=e.currentTarget.getAttribute('aria-pressed')!=='true';e.currentTarget.setAttribute('aria-pressed',on);document.body.classList.toggle('focus-mode',on);showToast(on?'Focus mode on':'Focus mode off')});
+$$('[data-fill]').forEach(b=>b.addEventListener('click',()=>{const input=document.getElementById(b.dataset.fill);input.value=b.dataset.value;input.focus();input.closest('.tool-card').scrollIntoView({behavior:'smooth',block:'center'})}));
+const surprises=[['concept-input','How does memory work?'],['question-input','Why is the ocean salty?'],['quiz-input','The human brain'],['path-input','Machine learning']];
+$('#surprise').addEventListener('click',()=>{const [id,value]=surprises[Math.floor(Math.random()*surprises.length)];const input=$('#'+id);input.value=value;input.focus();input.closest('.tool-card').scrollIntoView({behavior:'smooth',block:'center'});showToast('A fresh prompt is ready')});
+function esc(value){return String(value??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
+function textHtml(value){return '<div class="result-copy">'+esc(value).replace(/\n/g,'<br>')+'</div><button class="copy-button" type="button">Copy response</button>'}
+function quizHtml(data){let questions=data.questions||[];return '<div class="quiz-score" data-score>Score: 0 / '+questions.length+'</div><div class="quiz-list">'+questions.map((q,i)=>'<div class="quiz-question" data-answer="'+esc(q.correct_answer)+'"><strong>'+(i+1)+'. '+esc(q.question)+'</strong><div class="quiz-options">'+q.options.map(o=>'<button type="button" class="quiz-option" data-value="'+esc(o)+'">'+esc(o)+'</button>').join('')+'</div><div class="answer-note"></div></div>').join('')+'</div><button class="copy-button" type="button">Copy quiz</button>'}
+function showToast(message){const t=$('#toast');t.textContent=message;t.classList.add('show');clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.classList.remove('show'),2200)}
+function attachResultActions(result,raw){const copy=$('.copy-button',result);if(copy)copy.addEventListener('click',async()=>{await navigator.clipboard.writeText(typeof raw==='string'?raw:JSON.stringify(raw,null,2));copy.textContent='Copied ✓';showToast('Copied to clipboard')});$$('.quiz-option',result).forEach(option=>option.addEventListener('click',()=>{const question=option.closest('.quiz-question');if(question.dataset.done)return;question.dataset.done='true';const correct=question.dataset.answer===option.dataset.value;option.classList.add(correct?'correct':'wrong');if(!correct)$$('.quiz-option',question).find(b=>b.dataset.value===question.dataset.answer)?.classList.add('correct');$('.answer-note',question).textContent=correct?'Correct — nice work!':'Not quite. The correct answer is highlighted.';const score=$('[data-score]',result);const total=$$('.quiz-question',result).filter(q=>$('.correct',q)?.dataset.value===q.dataset.answer).length;score.textContent='Score: '+total+' / '+$$('.quiz-question',result).length}))}
+function recordActivity(){const n=Number(localStorage.getItem('edugenie-activities')||0)+1;localStorage.setItem('edugenie-activities',n);$('#session-count').textContent=n}
+$$('.tool-card').forEach(card=>$('form',card).addEventListener('submit',async e=>{e.preventDefault();const result=$('.result',card),button=$('button[type=submit]',card),old=button.innerHTML;result.className='result loading';result.innerHTML='<span class="spinner"></span> Gemini is shaping your response...';button.disabled=true;button.innerHTML='<span class="button-spinner"></span> Working';card.classList.add('busy');try{const response=await fetch(card.dataset.endpoint,{method:'POST',body:new FormData(e.target)});const data=await response.json();if(!response.ok||data.error){result.className='result error';result.innerHTML='<strong>Could not complete that yet.</strong><br>'+esc(data.error||'Please try again.')}else{result.className='result success';result.innerHTML=card.dataset.resultType==='quiz'?quizHtml(data.result):textHtml(data.result);attachResultActions(result,data.result);recordActivity();showToast('Response ready')}result.scrollIntoView({behavior:'smooth',block:'nearest'})}catch(err){result.className='result error';result.textContent='EduGenie could not reach the server. Check that Uvicorn is running.'}finally{button.disabled=false;button.innerHTML=old;card.classList.remove('busy')}}));
+$('#session-count').textContent=localStorage.getItem('edugenie-activities')||0;
+function tick(){$('#clock').textContent=new Intl.DateTimeFormat([], {hour:'numeric',minute:'2-digit'}).format(new Date())}tick();setInterval(tick,30000);
+fetch('/health').then(r=>r.json()).then(d=>{const status=$('#api-status');status.classList.toggle('ready',d.gemini_configured);$('span:last-child',status).textContent=d.gemini_configured?'Gemini ready':'Add API key'}).catch(()=>{$('#api-status').classList.add('offline');$('span:last-child',$('#api-status')).textContent='Server offline'});
+const observer=new IntersectionObserver(entries=>entries.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible')}),{threshold:.1});$$('.reveal').forEach(el=>observer.observe(el));
+</script>
 </body>
 </html>

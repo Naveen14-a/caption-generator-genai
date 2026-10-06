@@ -1,19 +1,7 @@
 """Gemini-powered five-question multiple-choice quiz generation."""
 import json
-import re
 
-from qna import generate_ai_text
-
-
-def _extract_json(text: str):
-    cleaned = re.sub(r"^```(?:json)?\s*|\s*```$", "", text.strip(), flags=re.IGNORECASE)
-    try:
-        return json.loads(cleaned)
-    except json.JSONDecodeError:
-        match = re.search(r"(\[.*\]|\{.*\})", cleaned, flags=re.DOTALL)
-        if not match:
-            raise ValueError("Gemini returned quiz content that was not valid JSON.")
-        return json.loads(match.group(1))
+from qna import generate_gemini_json
 
 
 def _validate_quiz(data):
@@ -25,10 +13,14 @@ def _validate_quiz(data):
         if not isinstance(item, dict):
             raise ValueError(f"Quiz question {index} was malformed.")
         options = item.get("options")
-        answer = item.get("correct_answer", item.get("answer"))
-        if not isinstance(options, list) or len(options) != 4 or not answer:
-            raise ValueError(f"Quiz question {index} must have four options and a correct answer.")
-        result.append({"question": str(item.get("question", "")), "options": [str(x) for x in options], "correct_answer": str(answer)})
+        answer = item.get("correct_answer")
+        question = str(item.get("question", "")).strip()
+        if not question or not isinstance(options, list) or len(options) != 4 or not answer:
+            raise ValueError(f"Quiz question {index} must have a question, four options, and a correct answer.")
+        options = [str(option).strip() for option in options]
+        if str(answer).strip() not in options:
+            raise ValueError(f"Quiz question {index} has an answer that is not one of its options.")
+        result.append({"question": question, "options": options, "correct_answer": str(answer).strip()})
     return {"questions": result}
 
 
@@ -36,10 +28,13 @@ def generate_quiz(topic: str):
     topic = (topic or "").strip()
     if not topic:
         raise ValueError("Please provide a quiz topic.")
-    prompt = (
-        "Create exactly five educational multiple-choice questions about the topic below. "
-        "Each question must have exactly four options and a correct_answer matching one option. "
-        "Return JSON only in this shape: {\"questions\":[{\"question\":\"...\",\"options\":[\"...\",\"...\",\"...\",\"...\"],\"correct_answer\":\"...\"}]}. "
-        "Keep the difficulty suitable for a general student.\n\nTopic: " + topic
+    raw = generate_gemini_json(
+        "Create exactly five student-friendly multiple-choice questions about this topic. Return JSON only with this shape: "
+        '{"questions":[{"question":"...","options":["...","...","...","..."],"correct_answer":"..."}]}\n\n'
+        f"Topic: {topic}",
+        system_instruction="You create fair educational quizzes. Every correct_answer must exactly match one option.",
     )
-    return _validate_quiz(_extract_json(generate_ai_text(prompt)))
+    try:
+        return _validate_quiz(json.loads(raw))
+    except json.JSONDecodeError as exc:
+        raise ValueError("Gemini returned quiz content that was not valid JSON.") from exc
